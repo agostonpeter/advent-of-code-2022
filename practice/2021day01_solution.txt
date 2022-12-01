@@ -1,0 +1,41 @@
+# Advent of code 2021-01
+
+counter = 0
+nums = Array.new
+linea = ''
+File.open('/home/agoston/personal/projects/advent-of-code-2022/2021day01_input.txt','r') do |f1|
+  while !f1.eof?
+    nums[counter] = f1.readline.to_i
+    counter+=1
+  end
+end
+notes = range(21,108,1)
+# nums = nums.ring
+print notes
+print notes[4]
+print nums
+
+previous = nums.max
+live_loop :day01 do
+  counter = 0
+  result = 0
+  nums.length().times do
+    play notes[nums[counter]]
+    if nums[counter] > previous
+      result+=1
+    end
+    previous = nums[counter]
+    counter+=1
+    sleep 0.25
+  end
+  print result
+  sleep 10
+end
+
+live_loop :beat do
+  sample :bd_haus, rate: 0.5
+  sleep 0.5
+  
+end
+
+
