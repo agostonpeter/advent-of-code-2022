@@ -1,0 +1,142 @@
+# Advent of code 2022-day01
+
+counter = 0
+elfs = Array.new
+singleElf = Array.new
+elfSumCalories = Array.new
+linea = ''
+File.open('/home/agoston/personal/projects/advent-of-code-2022/day01/day01_input.txt','r') do |f1|
+  while !f1.eof?
+    linea = f1.readline
+    #print linea
+    if linea != "\n"
+      singleElf.append(linea.to_i)
+    else
+      elfs.append(singleElf)
+      elfSumCalories.append(singleElf.sum)
+      singleElf = Array.new
+    end
+    counter+=1
+  end
+  if singleElf.length > 0
+    elfs.append(singleElf)
+    elfSumCalories.append(singleElf.sum)
+  end
+end
+
+day01notes = elfSumCalories.ring
+notes = range(21,108,1)
+rates = range(0.1,2,0.1)
+
+#print notes
+#print elfs
+#print elfSumCalories
+
+elfSumCalories = elfSumCalories.sort_by{|n| -n}
+print elfSumCalories[0]
+print elfSumCalories[0]+elfSumCalories[1]+elfSumCalories[2]
+
+done = false
+
+live_loop :bass do
+  3.times do
+    sample :bass_woodsy_c
+    sleep 1.5
+    sample :bass_woodsy_c
+    sleep 0.5
+    sample :bass_woodsy_c
+    sleep 1
+    sample :bass_woodsy_c
+    sleep 1
+  end
+  
+  sample :bass_woodsy_c
+  sleep 1.5
+  sample :bass_woodsy_c
+  sleep 0.5
+  sample :bass_woodsy_c
+  sleep 1
+  sample :bass_drop_c
+  sleep 1
+  
+  if done
+    stop
+  end
+  
+end
+
+live_loop :beat do
+  7.times do
+    sample :bd_haus, rate: 0.5
+    sleep 0.5
+    sample :sn_dub, rate: 0.5
+    sleep 0.5
+  end
+  sample :bd_haus, rate: 0.5
+  sleep 0.5
+  sample :bd_haus, rate: 0.25
+  sleep 0.25
+  sample :bd_haus, rate: 0.25
+  sleep 0.25
+  
+  if done
+    stop
+  end
+  
+end
+
+
+counter = 0
+live_loop :day01solution do
+  #sleep 4
+  7.times do
+    play notes[day01notes[counter += 1]], sustain: 0.1
+    sleep 0.25
+    play notes[day01notes[counter += 1]], sustain: 0.1
+    sleep 0.25
+    play notes[day01notes[counter += 1]], sustain: 0.1
+    sleep 0.5
+    play notes[day01notes[counter += 1]], sustain: 0.1
+    sample :elec_lo_snare, rate: rates[day01notes[counter += 1]]
+    sleep 0.25
+    play notes[day01notes[counter += 1]], sustain: 0.1
+    sleep 0.5
+    play notes[day01notes[counter += 1]], sustain: 0.1
+    sleep 0.25
+    play notes[day01notes[counter += 1]], sustain: 0.1
+    sample :elec_chime, rate: rates[day01notes[counter += 1]]
+    sleep 0.25
+    puts "#{counter}/#{day01notes.length}"
+  end
+  
+  play notes[day01notes[counter += 1]], sustain: 0.1
+  sleep 0.25
+  play notes[day01notes[counter += 1]], sustain: 0.1
+  sleep 0.25
+  play notes[day01notes[counter += 1]], sustain: 0.1
+  sleep 0.5
+  play notes[day01notes[counter += 1]], sustain: 0.1
+  sample :elec_lo_snare, rate: rates[day01notes[counter += 1]]
+  sleep 0.25
+  play notes[day01notes[counter += 1]], sustain: 0.1
+  sleep 0.5
+  play notes[day01notes[counter += 1]], sustain: 0.05
+  sleep 0.125
+  play notes[day01notes[counter += 1]], sustain: 0.05
+  sleep 0.125
+  play notes[day01notes[counter += 1]], sustain: 0.05
+  sample :elec_chime, rate: rates[day01notes[counter += 1]]
+  sleep 0.125
+  play notes[day01notes[counter += 1]], sustain: 0.05
+  sample :elec_chime, rate: rates[day01notes[counter += 1]]
+  sleep 0.125
+  
+  puts "#{counter}/#{day01notes.length}"
+  if counter >= day01notes.length
+    done = true
+    stop
+  end
+  
+end
+
+
